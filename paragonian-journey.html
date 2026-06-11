@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Paragonian's Journey — Paragon Corp</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap');
+
+  :root {
+    --navy-deep: #050d1a;
+    --navy-mid: #0a1628;
+    --navy-card: #0f1f38;
+    --navy-border: #1a3055;
+    --blue-accent: #1a6fff;
+    --blue-glow: #2b7fff;
+    --blue-light: #4d9fff;
+    --teal: #00c6b8;
+    --gold: #f0c040;
+    --white: #ffffff;
+    --white-80: rgba(255,255,255,0.8);
+    --white-50: rgba(255,255,255,0.5);
+    --white-20: rgba(255,255,255,0.2);
+    --white-10: rgba(255,255,255,0.08);
+    --glass: rgba(15, 31, 56, 0.7);
+    --glass-light: rgba(26, 48, 85, 0.5);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--navy-deep);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+    background: rgba(5,13,26,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .nav-logo {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .nav-logo svg { width: 22px; height: 22px; }
+  .nav-links {
+    display: flex; gap: 32px;
+    font-size: 13px; font-weight: 500; color: var(--white-80);
+    list-style: none;
+  }
+  .nav-links a { color: inherit; text-decoration: none; transition: color .2s; }
+  .nav-links a:hover { color: var(--white); }
+  .nav-icons { display: flex; gap: 20px; color: var(--white-80); cursor: pointer; }
+  .nav-icons svg { width: 18px; height: 18px; }
+  .nav-user { display: flex; align-items: center; gap: 10px; }
+  .nav-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-accent), var(--teal));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+    border: 2px solid var(--blue-accent);
+  }
+  .nav-name { font-size: 12px; line-height: 1.3; }
+  .nav-name span { display: block; color: var(--white-50); font-size: 10px; }
+  .nav-left { display: flex; align-items: center; gap: 24px; }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative; height: 100vh; display: flex; align-items: flex-end;
+    padding: 80px 60px;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, #050d1a 0%, #0a1e3a 40%, #061525 100%);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 60% 40%, rgba(26,111,255,0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 60% at 80% 60%, rgba(0,198,184,0.08) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; opacity: 0.04;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.8) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.8) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-particles {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .particle {
+    position: absolute; width: 2px; height: 2px; border-radius: 50%;
+    background: var(--blue-light);
+    animation: float-particle linear infinite;
+    opacity: 0;
+  }
+  @keyframes float-particle {
+    0% { transform: translateY(100vh) translateX(0); opacity: 0; }
+    10% { opacity: 0.8; }
+    90% { opacity: 0.8; }
+    100% { transform: translateY(-100px) translateX(40px); opacity: 0; }
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 700px; }
+  .hero-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+    color: var(--teal); text-transform: uppercase;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 30px; height: 1px; background: var(--teal);
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(42px, 6vw, 72px);
+    font-weight: 400; line-height: 1.1;
+    margin-bottom: 24px;
+  }
+  .hero-title em { font-style: italic; color: var(--blue-light); }
+  .hero-subtitle {
+    font-size: 16px; line-height: 1.7; color: var(--white-80);
+    max-width: 520px; margin-bottom: 40px;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 28px;
+    background: var(--blue-accent);
+    border-radius: 4px; font-size: 14px; font-weight: 600;
+    color: var(--white); text-decoration: none;
+    cursor: pointer; border: none;
+    transition: background .2s, transform .2s;
+  }
+  .hero-cta:hover { background: var(--blue-glow); transform: translateY(-1px); }
+
+  /* notification floating card */
+  .hero-notification {
+    position: absolute; bottom: 80px; right: 60px;
+    width: 340px; z-index: 10;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    padding: 16px;
+    animation: float-notif 6s ease-in-out infinite;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(26,111,255,0.2);
+  }
+  @keyframes float-notif {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  .notif-header {
+    display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
+  }
+  .notif-avatar {
+    width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, #2563eb, #0ea5e9);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .notif-name { font-size: 13px; font-weight: 600; }
+  .notif-role { font-size: 11px; color: var(--white-50); }
+  .notif-close { margin-left: auto; color: var(--white-50); cursor: pointer; font-size: 16px; }
+  .notif-body { font-size: 12px; line-height: 1.6; color: var(--white-80); }
+  .notif-time { margin-top: 8px; font-size: 10px; color: var(--white-50); text-align: right; }
+  .genta-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 3px 8px;
+    background: rgba(0,198,184,0.15);
+    border: 1px solid rgba(0,198,184,0.3);
+    border-radius: 20px;
+    font-size: 10px; font-weight: 600; color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .genta-badge::before {
+    content: ''; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--teal); animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    position: relative; padding: 100px 60px;
+  }
+  .section-eyebrow {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--teal);
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+  .section-eyebrow::before {
+    content: ''; width: 24px; height: 1px; background: var(--teal);
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(32px, 4vw, 52px);
+    font-weight: 400; line-height: 1.15;
+    margin-bottom: 20px;
+  }
+  .section-title em { font-style: italic; color: var(--blue-light); }
+  .section-body {
+    font-size: 16px; line-height: 1.8; color: var(--white-80);
+    max-width: 640px;
+  }
+  .divider {
+    width: 100%; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--navy-border), transparent);
+    margin: 0;
+  }
+
+  /* ─── JOURNEY TIMELINE ─── */
+  #journey { background: var(--navy-mid); }
+  .journey-intro {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+    margin-bottom: 80px;
+  }
+  .journey-stages {
+    display: flex; flex-direction: column; gap: 0;
+    position: relative;
+  }
+  .journey-stages::before {
+    content: '';
+    position: absolute; left: 22px; top: 0; bottom: 0; width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--navy-border) 10%, var(--navy-border) 90%, transparent);
+  }
+  .stage-item {
+    display: flex; gap: 24px; align-items: flex-start;
+    padding: 28px 0;
+    cursor: pointer;
+    position: relative;
+    transition: all .3s;
+  }
+  .stage-item:hover .stage-content { opacity: 1; }
+  .stage-dot {
+    width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    position: relative; z-index: 1;
+    transition: all .3s;
+  }
+  .stage-item.active .stage-dot,
+  .stage-item:hover .stage-dot {
+    background: var(--blue-accent);
+    border-color: var(--blue-accent);
+    box-shadow: 0 0 20px rgba(26,111,255,0.4);
+  }
+  .stage-content { flex: 1; opacity: 0.7; transition: opacity .3s; }
+  .stage-item.active .stage-content { opacity: 1; }
+  .stage-name {
+    font-size: 14px; font-weight: 600; margin-bottom: 4px;
+  }
+  .stage-desc { font-size: 13px; color: var(--white-50); line-height: 1.5; }
+  .stage-arrow {
+    margin-left: auto; color: var(--white-20); font-size: 20px;
+    transition: all .3s; align-self: center;
+  }
+  .stage-item.active .stage-arrow,
+  .stage-item:hover .stage-arrow { color: var(--blue-accent); transform: translateX(4px); }
+
+  /* ─── SCREEN PANELS (immersive journey) ─── */
+  .journey-panel {
+    display: none;
+    position: relative;
+  }
+  .journey-panel.active { display: block; }
+  .screen-frame {
+    background: var(--navy-deep);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 0 1px rgba(26,111,255,0.1);
+  }
+  .screen-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 20px; height: 52px;
+    background: rgba(5,13,26,0.9);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .screen-bar-left { display: flex; align-items: center; gap: 14px; }
+  .screen-logo-text {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.1em;
+    color: var(--white);
+  }
+  .screen-nav {
+    display: flex; gap: 20px;
+    font-size: 12px; color: var(--white-50);
+  }
+  .screen-nav span { cursor: pointer; transition: color .2s; }
+  .screen-nav span:hover, .screen-nav span.active { color: var(--white); }
+  .screen-bar-right { display: flex; align-items: center; gap: 16px; color: var(--white-50); font-size: 12px; }
+  .screen-user { display: flex; align-items: center; gap: 8px; }
+  .screen-avatar {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--blue-accent), var(--teal));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; border: 1.5px solid var(--blue-accent);
+  }
+  .screen-body { padding: 28px; min-height: 400px; }
+
+  /* EMAIL SCREEN */
+  .email-layout {
+    display: grid; grid-template-columns: 220px 1fr;
+    gap: 20px; height: 100%;
+  }
+  .email-sidebar {
+    border-right: 1px solid var(--navy-border);
+    padding-right: 20px;
+  }
+  .email-folder {
+    padding: 8px 12px; border-radius: 6px;
+    font-size: 12px; display: flex; align-items: center; gap: 8px;
+    cursor: pointer; color: var(--white-50);
+    transition: all .2s;
+  }
+  .email-folder.active { background: rgba(26,111,255,0.15); color: var(--white); }
+  .email-folder span.count {
+    margin-left: auto;
+    background: var(--blue-accent); color: white;
+    font-size: 10px; font-weight: 700;
+    padding: 1px 6px; border-radius: 10px;
+  }
+  .email-list { display: flex; flex-direction: column; gap: 2px; }
+  .email-item {
+    padding: 14px; border-radius: 8px;
+    border: 1px solid var(--navy-border);
+    cursor: pointer; transition: all .2s;
+    background: var(--navy-card);
+  }
+  .email-item:hover { border-color: var(--blue-accent); }
+  .email-item.unread { border-left: 3px solid var(--blue-accent); }
+  .email-from { font-size: 12px; font-weight: 600; margin-bottom: 3px; }
+  .email-subject { font-size: 12px; color: var(--white-80); margin-bottom: 3px; }
+  .email-preview { font-size: 11px; color: var(--white-50); }
+  .email-time { font-size: 10px; color: var(--white-50); text-align: right; margin-top: 4px; }
+
+  /* PARAVERSE SCREEN */
+  .paraverse-layout { display: flex; flex-direction: column; gap: 20px; }
+  .paraverse-hero-bar {
+    background: linear-gradient(135deg, rgba(26,111,255,0.2), rgba(0,198,184,0.1));
+    border: 1px solid rgba(26,111,255,0.2);
+    border-radius: 12px; padding: 20px 24px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .paraverse-greeting { font-size: 18px; font-weight: 600; }
+  .paraverse-date { font-size: 12px; color: var(--white-50); }
+  .paraverse-quick-links {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  }
+  .quick-link-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px; padding: 16px;
+    text-align: center; cursor: pointer;
+    transition: all .3s;
+  }
+  .quick-link-card:hover {
+    border-color: var(--blue-accent);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(26,111,255,0.2);
+  }
+  .quick-link-icon { font-size: 24px; margin-bottom: 8px; }
+  .quick-link-name { font-size: 11px; font-weight: 600; }
+  .paraverse-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .news-card {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 10px; padding: 16px;
+  }
+  .news-card h4 { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--white-50); margin-bottom: 12px; }
+  .news-item { padding: 8px 0; border-bottom: 1px solid var(--navy-border); font-size: 12px; }
+  .news-item:last-child { border-bottom: none; }
+  .news-item-title { color: var(--white-80); margin-bottom: 2px; }
+  .news-item-date { font-size: 10px; color: var(--white-50); }
+
+  /* GENTA CHAT */
+  .genta-panel {
+    position: absolute; bottom: 28px; right: 28px; width: 300px;
+    background: var(--glass);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--navy-border);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    animation: slide-in-chat 0.5s ease forwards;
+  }
+  @keyframes slide-in-chat {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  .genta-header {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px;
+    background: rgba(26,111,255,0.1);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .genta-avatar {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--blue-accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+  }
+  .genta-info { flex: 1; }
+  .genta-title { font-size: 12px; font-weight: 700; }
+  .genta-subtitle { font-size: 10px; color: var(--teal); }
+  .genta-messages { padding: 12px; display: flex; flex-direction: column; gap: 8px; max-height: 200px; overflow-y: auto; }
+  .genta-msg {
+    max-width: 85%; padding: 8px 12px;
+    border-radius: 10px; font-size: 11px; line-height: 1.5;
+  }
+  .genta-msg.from-genta {
+    background: rgba(26,111,255,0.15);
+    border: 1px solid rgba(26,111,255,0.2);
+    align-self: flex-start; border-bottom-left-radius: 2px;
+  }
+  .genta-msg.from-user {
+    background: var(--blue-accent);
+    align-self: flex-end; border-bottom-right-radius: 2px;
+  }
+  .genta-suggestions { padding: 0 12px 12px; display: flex; flex-wrap: wrap; gap: 6px; }
+  .genta-suggest-btn {
+    padding: 5px 10px;
+    background: rgba(0,198,184,0.1);
+    border: 1px solid rgba(0,198,184,0.25);
+    border-radius: 20px; font-size: 10px; color: var(--teal);
+    cursor: pointer; transition: all .2s;
+  }
+  .genta-suggest-btn:hover { background: rgba(0,198,184,0.2); }
+
+  /* ─── PARAVERSE SECTION ─── */
+  #paraverse { background: var(--navy-deep); }
+  .paraverse-intro-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .feature-list { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .feature-item {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .feature-icon {
+    width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(26,111,255,0.1);
+    border: 1px solid rgba(26,111,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .feature-text h4 { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .feature-text p { font-size: 12px; color: var(--white-50); line-height: 1.5; }
+
+  /* ─── GENTA SECTION ─── */
+  #genta {
+    background: linear-gradient(180deg, var(--navy-mid) 0%, var(--navy-deep) 100%);
+  }
+  .genta-intro-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .genta-capabilities {
+    display: flex; flex-direction: column; gap: 20px;
+    margin-top: 32px;
+  }
+  .cap-item {
+    display: flex; gap: 16px;
+    padding: 20px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 12px;
+    transition: all .3s;
+  }
+  .cap-item:hover {
+    border-color: var(--teal);
+    box-shadow: 0 4px 20px rgba(0,198,184,0.1);
+  }
+  .cap-num {
+    font-size: 28px; font-weight: 700;
+    color: var(--teal); font-family: 'Playfair Display', serif;
+    opacity: 0.4; flex-shrink: 0; width: 36px;
+  }
+  .cap-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .cap-content p { font-size: 13px; color: var(--white-50); line-height: 1.5; }
+
+  /* GENTA DEMO CHAT (larger) */
+  .genta-demo-frame {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .genta-demo-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px;
+    background: rgba(0,198,184,0.08);
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .genta-demo-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--teal), var(--blue-accent));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .genta-demo-name { font-size: 14px; font-weight: 700; }
+  .genta-demo-status {
+    font-size: 11px; color: var(--teal);
+    display: flex; align-items: center; gap: 5px;
+  }
+  .genta-demo-status::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--teal); animation: pulse 2s infinite;
+  }
+  .genta-demo-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+  .demo-msg {
+    max-width: 80%; padding: 10px 14px;
+    border-radius: 12px; font-size: 12px; line-height: 1.6;
+  }
+  .demo-msg.genta {
+    background: rgba(26,111,255,0.1);
+    border: 1px solid rgba(26,111,255,0.2);
+    align-self: flex-start; border-bottom-left-radius: 3px;
+  }
+  .demo-msg.user {
+    background: var(--blue-accent); align-self: flex-end;
+    border-bottom-right-radius: 3px;
+  }
+  .demo-msg .msg-tag {
+    display: inline-block; padding: 2px 6px;
+    background: rgba(0,198,184,0.2); border-radius: 4px;
+    font-size: 10px; font-weight: 600; color: var(--teal);
+    margin-bottom: 4px;
+  }
+  .demo-actions {
+    padding: 16px 20px; border-top: 1px solid var(--navy-border);
+    display: flex; gap: 8px; flex-wrap: wrap;
+  }
+  .demo-action-btn {
+    padding: 7px 14px;
+    border: 1px solid var(--navy-border);
+    border-radius: 20px; font-size: 11px; background: transparent;
+    color: var(--white-80); cursor: pointer; transition: all .2s;
+  }
+  .demo-action-btn:hover {
+    border-color: var(--blue-accent); color: var(--white);
+    background: rgba(26,111,255,0.1);
+  }
+  .demo-scenario-tabs {
+    display: flex; gap: 4px;
+    padding: 16px 20px 0;
+    border-bottom: 1px solid var(--navy-border);
+    overflow-x: auto;
+  }
+  .scenario-tab {
+    padding: 8px 14px; font-size: 11px; font-weight: 600;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer; white-space: nowrap;
+    color: var(--white-50); transition: all .2s;
+    border: 1px solid transparent; border-bottom: none;
+  }
+  .scenario-tab.active {
+    background: rgba(26,111,255,0.1);
+    border-color: var(--navy-border);
+    color: var(--white); margin-bottom: -1px;
+  }
+
+  /* ─── JOURNEY INTERACTIVE TIMELINE ─── */
+  #journey-timeline {
+    background: var(--navy-mid);
+    overflow: hidden;
+  }
+  .timeline-header { text-align: center; margin-bottom: 60px; }
+  .timeline-header .section-eyebrow { justify-content: center; }
+  .timeline-header .section-eyebrow::before { display: none; }
+  .timeline-track {
+    position: relative; margin-bottom: 60px;
+    overflow-x: auto; padding: 20px 0;
+  }
+  .timeline-track::-webkit-scrollbar { height: 4px; }
+  .timeline-track::-webkit-scrollbar-track { background: var(--navy-border); border-radius: 2px; }
+  .timeline-track::-webkit-scrollbar-thumb { background: var(--blue-accent); border-radius: 2px; }
+  .timeline-line {
+    display: flex; gap: 0; align-items: flex-start;
+    min-width: max-content; padding: 0 60px;
+    position: relative;
+  }
+  .timeline-line::before {
+    content: '';
+    position: absolute; left: 60px; right: 60px; top: 22px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--navy-border), var(--blue-accent), var(--teal), var(--navy-border));
+  }
+  .tl-node {
+    display: flex; flex-direction: column; align-items: center;
+    width: 120px; flex-shrink: 0;
+    cursor: pointer;
+    transition: all .3s;
+  }
+  .tl-dot {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--navy-card);
+    border: 2px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; margin-bottom: 10px; z-index: 1;
+    transition: all .3s; position: relative;
+  }
+  .tl-node:hover .tl-dot, .tl-node.active .tl-dot {
+    border-color: var(--blue-accent);
+    background: var(--blue-accent);
+    box-shadow: 0 0 0 6px rgba(26,111,255,0.15), 0 0 20px rgba(26,111,255,0.4);
+    transform: scale(1.1);
+  }
+  .tl-label {
+    font-size: 11px; font-weight: 600; text-align: center; color: var(--white-50);
+    transition: color .3s;
+  }
+  .tl-node:hover .tl-label, .tl-node.active .tl-label { color: var(--white); }
+
+  .timeline-detail {
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    padding: 32px;
+    display: none;
+    animation: fade-in .4s ease;
+  }
+  .timeline-detail.active { display: block; }
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .td-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .td-left h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px; margin-bottom: 8px;
+  }
+  .td-left h3 em { font-style: italic; color: var(--blue-light); }
+  .td-emotion {
+    display: inline-block; padding: 6px 14px;
+    background: rgba(240,192,64,0.1);
+    border: 1px solid rgba(240,192,64,0.25);
+    border-radius: 20px;
+    font-size: 12px; color: var(--gold); margin-bottom: 14px;
+  }
+  .td-desc { font-size: 14px; line-height: 1.7; color: var(--white-80); margin-bottom: 20px; }
+  .td-touchpoints { display: flex; flex-direction: column; gap: 10px; }
+  .tp-item {
+    display: flex; gap: 10px; align-items: center;
+    padding: 10px 14px;
+    background: rgba(26,111,255,0.06);
+    border: 1px solid rgba(26,111,255,0.12);
+    border-radius: 8px;
+    font-size: 12px;
+  }
+  .tp-item .tp-icon { font-size: 16px; }
+  .tp-item .tp-label { font-weight: 600; color: var(--white-80); }
+  .tp-item .tp-sub { color: var(--white-50); font-size: 11px; margin-left: auto; }
+  .td-right { position: relative; }
+
+  /* ─── HUMANS SECTION ─── */
+  #humans { background: var(--navy-deep); }
+  .humans-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 60px;
+  }
+  .human-card {
+    padding: 32px 28px;
+    background: var(--navy-card);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    text-align: center;
+    transition: all .3s;
+  }
+  .human-card:hover {
+    border-color: rgba(26,111,255,0.4);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(26,111,255,0.1);
+  }
+  .human-emoji { font-size: 40px; margin-bottom: 16px; }
+  .human-role { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+  .human-quote { font-size: 13px; line-height: 1.7; color: var(--white-50); font-style: italic; }
+
+  /* ─── FUTURE SECTION ─── */
+  #future {
+    background: linear-gradient(180deg, var(--navy-deep) 0%, #030812 100%);
+  }
+  .future-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 24px; margin-top: 60px;
+  }
+  .future-card {
+    padding: 32px 28px;
+    background: var(--glass-light);
+    border: 1px solid var(--navy-border);
+    border-radius: 16px;
+    position: relative; overflow: hidden;
+    transition: all .4s;
+  }
+  .future-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(26,111,255,0.05) 0%, transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .future-card:hover::before { opacity: 1; }
+  .future-card:hover {
+    border-color: rgba(26,111,255,0.3);
+    transform: translateY(-4px);
+  }
+  .future-tag {
+    display: inline-block; padding: 4px 10px;
+    background: rgba(0,198,184,0.1);
+    border: 1px solid rgba(0,198,184,0.2);
+    border-radius: 4px; font-size: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--teal);
+    margin-bottom: 16px;
+  }
+  .future-title { font-size: 16px; font-weight: 600; margin-bottom: 10px; }
+  .future-desc { font-size: 13px; color: var(--white-50); line-height: 1.6; }
+  .future-icon {
+    position: absolute; top: 24px; right: 24px;
+    font-size: 28px; opacity: 0.2;
+  }
+
+  /* ─── CLOSING ─── */
+  #closing {
+    background: var(--navy-deep);
+    text-align: center; padding: 140px 60px;
+    position: relative; overflow: hidden;
+  }
+  #closing::before {
+    content: '';
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    width: 600px; height: 600px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(26,111,255,0.08) 0%, transparent 70%);
+  }
+  .closing-content { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; }
+  .closing-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px); line-height: 1.15;
+    margin-bottom: 24px;
+  }
+  .closing-title em { font-style: italic; color: var(--blue-light); }
+  .closing-body { font-size: 17px; line-height: 1.8; color: var(--white-80); margin-bottom: 48px; }
+  .closing-sig {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 32px;
+    background: var(--glass);
+    border: 1px solid var(--navy-border);
+    border-radius: 100px; font-size: 14px;
+  }
+  .closing-sig span { color: var(--teal); font-weight: 600; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    padding: 30px 60px;
+    border-top: 1px solid var(--navy-border);
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; color: var(--white-50);
+  }
+
+  /* ─── SCROLL ANIMATIONS ─── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    section { padding: 80px 24px; }
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    .hero-notification { display: none; }
+    .journey-intro { grid-template-columns: 1fr; }
+    .paraverse-intro-grid, .genta-intro-grid { grid-template-columns: 1fr; }
+    .humans-grid, .future-grid { grid-template-columns: 1fr; }
+    .td-inner { grid-template-columns: 1fr; }
+    #hero { padding: 80px 24px; }
+    .hero-title { font-size: 36px; }
+    .closing-title { font-size: 32px; }
+    .paraverse-quick-links { grid-template-columns: repeat(2, 1fr); }
+    .paraverse-bottom { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div class="nav-user">
+      <div class="nav-avatar">SN</div>
+      <div class="nav-name">Salma Niari <span>Paragonian</span></div>
+    </div>
+    <div style="width:1px; height:28px; background:var(--navy-border);"></div>
+    <div class="nav-logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" fill="none" stroke="#1a6fff" stroke-width="1.5"/>
+        <polygon points="12,7 17,10 17,14 12,17 7,14 7,10" fill="#1a6fff" opacity="0.6"/>
+      </svg>
+      <span>PARAGONCORP</span>
+    </div>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#paraverse">Paraverse</a></li>
+    <li><a href="#genta">GENTA</a></li>
+    <li><a href="#journey-timeline">Journey</a></li>
+  </ul>
+  <div class="nav-icons">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-particles" id="particles"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">A Paragonian's Story</div>
+    <h1 class="hero-title">
+      More than a job.<br>
+      A <em>human journey</em><br>
+      worth living.
+    </h1>
+    <p class="hero-subtitle">
+      At Paragon, your career is not a transaction. It is a living story of growth,
+      connection, and purpose — and we are here with you at every step.
+    </p>
+    <button class="hero-cta" onclick="document.getElementById('journey-start').scrollIntoView({behavior:'smooth'})">
+      Begin the Journey
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
+  </div>
+
+  <!-- Floating GENTA notification -->
+  <div class="hero-notification">
+    <div class="notif-header">
+      <div class="notif-avatar">G</div>
+      <div>
+        <div class="notif-name">GENTA</div>
+        <div class="notif-role">Your Paraverse Companion</div>
+      </div>
+      <div class="notif-close">×</div>
+    </div>
+    <div class="genta-badge">Live</div>
+    <div class="notif-body">
+      Selamat datang, Salma! 🎉 Hari pertama mu dimulai pukul <strong>08.30</strong>.
+      Laptop-mu sudah siap di meja 4B. Tim sudah tidak sabar bertemu denganmu!
+    </div>
+    <div class="notif-time">Just now · Paraverse</div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- JOURNEY BEGINS -->
+<section id="journey-start" style="background: var(--navy-mid);">
+  <div class="journey-intro reveal">
+    <div>
+      <div class="section-eyebrow">The Journey Begins</div>
+      <h2 class="section-title">From the moment<br>you say <em>yes</em>.</h2>
+      <p class="section-body">
+        Even before your first day, Paragon is already thinking about you.
+        A career here begins not with paperwork — but with a genuine, human welcome
+        that tells you: <em>you belong here.</em>
+      </p>
+      <div style="margin-top: 32px; display: flex; gap: 12px; flex-wrap: wrap;">
+        <div style="padding: 10px 18px; background: rgba(26,111,255,0.1); border: 1px solid rgba(26,111,255,0.2); border-radius: 8px; font-size: 13px;">
+          🤝 Offering & Acceptance
+        </div>
+        <div style="padding: 10px 18px; background: rgba(0,198,184,0.1); border: 1px solid rgba(0,198,184,0.2); border-radius: 8px; font-size: 13px; color: var(--teal);">
+          📱 Pre-Onboarding via GENTA
+        </div>
+        <div style="padding: 10px 18px; background: rgba(240,192,64,0.1); border: 1px solid rgba(240,192,64,0.2); border-radius: 8px; font-size: 13px; color: var(--gold);">
+          🏠 Welcome to Paraverse
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <!-- EMAIL SCREEN mockup -->
+      <div class="screen-frame">
+        <div class="screen-bar">
+          <div class="screen-bar-left">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a6fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>
+            <span style="font-size:12px; color: var(--white-80);">Outlook — Inbox</span>
+          </div>
+          <div class="screen-bar-right">
+            <div class="screen-user">
+              <div class="screen-avatar">SN</div>
+              <span>salma.niari@paragoncorp.com</span>
+            </div>
+          </div>
+        </div>
+        <div class="screen-body" style="padding: 0;">
+          <div class="email-layout">
+            <div class="email-sidebar" style="padding: 16px;">
+              <div class="email-folder active">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13 19.79 19.79 0 0 1 1.61 4.44 2 2 0 0 1 3.57 2.25h3a2 2 0 0 1 2 1.72"/></svg>
+                Inbox <span class="count">2</span>
+              </div>
+              <div class="email-folder">📤 Sent</div>
+              <div class="email-folder">📋 Drafts</div>
+            </div>
+            <div style="padding: 16px; display: flex; flex-direction: column; gap: 8px;">
+              <div class="email-item unread" style="cursor:pointer;" onclick="showEmailDetail()">
+                <div class="email-from">🏢 Paragon Corp — Talent Acquisition</div>
+                <div class="email-subject">Selamat Datang di Keluarga Paragon Corp ✨</div>
+                <div class="email-preview">Dear Salma Azzarin, Selamat datang di Keluarga Besar Paragon Corp...</div>
+                <div class="email-time">Today, 10:24 AM</div>
+              </div>
+              <div class="email-item unread" onclick="showEmailDetail2()">
+                <div class="email-from" style="color: var(--teal);">🤖 GENTA — Paraverse</div>
+                <div class="email-subject">H-2: Kamu resmi menjadi Paragonian!</div>
+                <div class="email-preview">Aktifkan email korporatmu dan login ke Paraverse untuk memulai...</div>
+                <div class="email-time">Yesterday, 08.00 AM</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email detail modal -->
+  <div id="email-detail" style="display:none; margin-top:24px;" class="reveal">
+    <div class="screen-frame">
+      <div class="screen-bar">
+        <div class="screen-bar-left">
+          <button onclick="document.getElementById('email-detail').style.display='none'" style="background:none;border:none;color:var(--white-50);cursor:pointer;font-size:12px;">← Back</button>
+          <span style="font-size:13px; font-weight:600;">Selamat Datang di Keluarga Paragon Corp ✨</span>
+        </div>
+      </div>
+      <div class="screen-body">
+        <div style="max-width: 560px;">
+          <div style="display: flex; gap: 12px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--navy-border);">
+            <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #2563eb, #0ea5e9); display:flex;align-items:center;justify-content:center; font-weight:700; font-size:11px; flex-shrink:0;">PC</div>
+            <div>
+              <div style="font-size:13px; font-weight:600;">Paragon Corp — Talent Acquisition</div>
+              <div style="font-size:11px; color:var(--white-50);">ta@paragoncorp.com · To: salma.niari@paragoncorp.com</div>
+            </div>
+          </div>
+          <p style="font-size:13px; line-height:1.8; color:var(--white-80);">
+            Dear <strong>Salma Azzarin</strong>,<br><br>
+            Selamat datang di Keluarga Besar <strong>Paragon Corp</strong>. 🎉<br><br>
+            Selamat, Anda telah lolos dari seluruh tahapan rekrutmen. Kami dengan bangga menginformasikan bahwa Anda akan bergabung sebagai <strong>MT — HRCA</strong>.<br><br>
+            <strong>Tanggal Bergabung:</strong> 15 Juli 2025<br>
+            <strong>Area Kerja:</strong> Tangerang HQ, Gedung A Lt. 3<br><br>
+            Yang perlu dilakukan dalam 2 hari ke depan:<br>
+          </p>
+          <div style="margin: 16px 0; display:flex; flex-direction:column; gap:8px;">
+            <div style="display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(26,111,255,0.08);border:1px solid rgba(26,111,255,0.15);border-radius:8px;font-size:12px;">
+              <span>📝</span> <span>Lengkapi data diri via link Onboarding</span>
+              <span style="margin-left:auto;color:var(--blue-accent);font-size:11px;font-weight:600;">Buka →</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(26,111,255,0.08);border:1px solid rgba(26,111,255,0.15);border-radius:8px;font-size:12px;">
+              <span>📁</span> <span>Upload dokumen persyaratan</span>
+              <span style="margin-left:auto;color:var(--blue-accent);font-size:11px;font-weight:600;">Upload →</span>
+            </div>
+            <div style="display:flex;gap:10px;align-items:center;padding:10px 14px;background:rgba(0,198,184,0.08);border:1px solid rgba(0,198,184,0.15);border-radius:8px;font-size:12px;">
+              <span>🤖</span> <span>GENTA akan membimbingmu dalam pre-onboarding digital</span>
+              <span style="margin-left:auto;color:var(--teal);font-size:11px;font-weight:600;">Coming soon</span>
+            </div>
+          </div>
+          <p style="font-size:12px; color:var(--white-50);">Selamat bergabung! Kami tidak sabar untuk memulai perjalanan ini bersama.<br><br>Salam hangat,<br><strong>Tim Talent Acquisition, Paragon Corp</strong></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- PARAVERSE -->
+<section id="paraverse">
+  <div class="paraverse-intro-grid">
+    <div class="reveal">
+      <div class="section-eyebrow">Meet Paraverse</div>
+      <h2 class="section-title">Your <em>digital home</em><br>at Paragon.</h2>
+      <p class="section-body">
+        Like a home that holds everything you need, Paraverse is where Paragonians
+        find their footing — every day, at every stage of their journey.
+        It is not just a platform. It is the place you return to.
+      </p>
+      <div class="feature-list">
+        <div class="feature-item reveal reveal-delay-1">
+          <div class="feature-icon">📋</div>
+          <div class="feature-text">
+            <h4>Policies & Documents</h4>
+            <p>Leave policy, expenses, benefits — all in one searchable place.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal reveal-delay-2">
+          <div class="feature-icon">🛠️</div>
+          <div class="feature-text">
+            <h4>Service Requests (GLPI)</h4>
+            <p>Submit IT & HR service tickets. Track status. No more back-and-forth.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal reveal-delay-3">
+          <div class="feature-icon">📣</div>
+          <div class="feature-text">
+            <h4>Company Announcements</h4>
+            <p>Be in the know about what's happening across Paragon Corp.</p>
+          </div>
+        </div>
+        <div class="feature-item reveal">
+          <div class="feature-icon">🤖</div>
+          <div class="feature-text">
+            <h4>GENTA — Your Always-On Companion</h4>
+            <p>Ask anything. Get answers, reminders, and guidance 24/7.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <!-- Paraverse UI Mockup -->
+      <div class="screen-frame">
+        <div class="screen-bar">
+          <div class="screen-bar-left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" fill="none" stroke="#1a6fff" stroke-width="1.5"/>
+              <polygon points="12,7 17,10 17,14 12,17 7,14 7,10" fill="#1a6fff" opacity="0.6"/>
+            </svg>
+            <span class="screen-logo-text">PARAGONCORP</span>
+            <div class="screen-nav">
+              <span class="active">Home</span>
+              <span>About Us</span>
+              <span>Documents</span>
+            </div>
+          </div>
+          <div class="screen-bar-right">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <div class="screen-user">
+              <div class="screen-avatar">SN</div>
+              <span>Salma N.</span>
+            </div>
+          </div>
+        </div>
+        <div class="screen-body">
+          <div class="paraverse-layout" style="position:relative;">
+            <div class="paraverse-hero-bar">
+              <div>
+                <div class="paraverse-greeting">Good morning, Salma! ☀️</div>
+                <div class="paraverse-date">Monday, 15 July 2025 · Day 1 as Paragonian</div>
+              </div>
+              <div style="text-align:right;">
+                <div style="font-size:11px; color:var(--teal); font-weight:600;">🎉 Welcome Week</div>
+                <div style="font-size:10px; color:var(--white-50);">Onboarding in progress</div>
+              </div>
+            </div>
+            <div class="paraverse-quick-links">
+              <div class="quick-link-card">
+                <div class="quick-link-icon">📅</div>
+                <div class="quick-link-name">My Schedule</div>
+              </div>
+              <div class="quick-link-card">
+                <div class="quick-link-icon">🏖️</div>
+                <div class="quick-link-name">Leave Request</div>
+              </div>
+              <div class="quick-link-card">
+                <div class="quick-link-icon">📄</div>
+                <div class="quick-link-name">Policies</div>
+              </div>
+              <div class="quick-link-card" style="border-color: rgba(0,198,184,0.3); background: rgba(0,198,184,0.05);">
+                <div class="quick-link-icon">🤖</div>
+                <div class="quick-link-name" style="color:var(--teal);">Ask GENTA</div>
+              </div>
+            </div>
+            <div class="paraverse-bottom">
+              <div class="news-card">
+                <h4>Announcements</h4>
+                <div class="news-item">
+                  <div class="news-item-title">Selamat Bergabung Salma! 🎉</div>
+                  <div class="news-item-date">Today — from HRCA Team</div>
+                </div>
+                <div class="news-item">
+                  <div class="news-item-title">CEO Message: Mid-Year Reflection</div>
+                  <div class="news-item-date">12 Jun 2025</div>
+                </div>
+              </div>
+              <div class="news-card">
+                <h4>My Tasks</h4>
+                <div class="news-item" style="display:flex;gap:8px;align-items:center;">
+                  <span style="color:var(--teal);">✓</span>
+                  <div>
+                    <div class="news-item-title" style="text-decoration:line-through;opacity:0.5;">Activate corporate email</div>
+                  </div>
+                </div>
+                <div class="news-item" style="display:flex;gap:8px;align-items:center;">
+                  <span style="color:var(--gold);">○</span>
+                  <div>
+                    <div class="news-item-title">Activate Sunfish account</div>
+                    <div class="news-item-date">Due today</div>
+                  </div>
+                </div>
+                <div class="news-item" style="display:flex;gap:8px;align-items:center;">
+                  <span style="color:var(--white-20);">○</span>
+                  <div>
+                    <div class="news-item-title">Complete pre-onboarding modules</div>
+                    <div class="news-item-date">Due in 3 days</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- GENTA floating chat -->
+            <div class="genta-panel" style="position:relative;bottom:auto;right:auto;width:100%;margin-top:16px;">
+              <div class="genta-header">
+                <div class="genta-avatar">✦</div>
+                <div class="genta-info">
+                  <div class="genta-title">GENTA</div>
+                  <div class="genta-subtitle">Always here for you</div>
+                </div>
+              </div>
+              <div class="genta-messages">
+                <div class="genta-msg from-genta">Halo Salma! 👋 Selamat hari pertama! Ada yang bisa kubantu hari ini?</div>
+                <div class="genta-msg from-user">Berapa hari cuti tahunan yang aku dapat?</div>
+                <div class="genta-msg from-genta">Sebagai karyawan baru, kamu mendapat <strong>12 hari cuti tahunan</strong>. Cuti dapat diajukan melalui Sunfish setelah masa probasi 3 bulan. Mau aku arahkan ke halaman kebijakan lengkapnya? 📋</div>
+              </div>
+              <div class="genta-suggestions">
+                <div class="genta-suggest-btn">📋 Lihat kebijakan cuti</div>
+                <div class="genta-suggest-btn">🏥 Benefit kesehatan</div>
+                <div class="genta-suggest-btn">👤 Update data diri</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- GENTA -->
+<section id="genta">
+  <div class="genta-intro-grid">
+    <div class="reveal">
+      <div class="section-eyebrow">Meet GENTA</div>
+      <h2 class="section-title">Not just a chatbot.<br><em>Care in action.</em></h2>
+      <p class="section-body">
+        GENTA exists because no Paragonian should ever feel lost, confused,
+        or unsupported. Behind every response is not just an algorithm —
+        it is the company's genuine intention to be there for you.
+      </p>
+      <div class="genta-capabilities">
+        <div class="cap-item reveal reveal-delay-1">
+          <div class="cap-num">01</div>
+          <div class="cap-content">
+            <h4>Answer Your Tier-1 Questions</h4>
+            <p>Leave policy, payroll, benefits, HR procedures — instant, accurate, always available.</p>
+          </div>
+        </div>
+        <div class="cap-item reveal reveal-delay-2">
+          <div class="cap-num">02</div>
+          <div class="cap-content">
+            <h4>Send Reminders & Follow-Ups</h4>
+            <p>Deadlines, mandatory activities, life event benefits — GENTA keeps you one step ahead.</p>
+          </div>
+        </div>
+        <div class="cap-item reveal reveal-delay-3">
+          <div class="cap-num">03</div>
+          <div class="cap-content">
+            <h4>Guide You to the Right Place</h4>
+            <p>Need to escalate? Submit a request? GENTA directs you to the exact team, tool, or channel.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-2">
+      <div class="genta-demo-frame">
+        <div class="demo-scenario-tabs" id="scenario-tabs">
+          <div class="scenario-tab active" onclick="setScenario(0)">🌱 New Employee</div>
+          <div class="scenario-tab" onclick="setScenario(1)">🏖️ Leave Policy</div>
+          <div class="scenario-tab" onclick="setScenario(2)">👶 Life Event</div>
+          <div class="scenario-tab" onclick="setScenario(3)">🚪 Offboarding</div>
+        </div>
+        <div class="genta-demo-header">
+          <div class="genta-demo-avatar">✦</div>
+          <div>
+            <div class="genta-demo-name">GENTA</div>
+            <div class="genta-demo-status">Online · Paraverse</div>
+          </div>
+        </div>
+        <div class="genta-demo-body" id="genta-demo-messages">
+          <!-- Populated by JS -->
+        </div>
+        <div class="demo-actions" id="demo-actions">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- INTERACTIVE JOURNEY TIMELINE -->
+<section id="journey-timeline">
+  <div class="timeline-header reveal">
+    <div class="section-eyebrow">GENTA Across the Journey</div>
+    <h2 class="section-title">Every stage, <em>every step</em>.</h2>
+    <p class="section-body" style="max-width:560px;margin:0 auto;text-align:center;">
+      Follow Salma's journey from her first day to her most defining career moments.
+      Click a stage to see how Paraverse and GENTA show up for her.
+    </p>
+  </div>
+
+  <div class="timeline-track reveal">
+    <div class="timeline-line" id="timeline-line">
+      <!-- Populated by JS -->
+    </div>
+  </div>
+
+  <div id="timeline-detail-container">
+    <!-- Populated by JS -->
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- HUMANS -->
+<section id="humans">
+  <div style="text-align:center; max-width: 640px; margin: 0 auto 60px; " class="reveal">
+    <div class="section-eyebrow" style="justify-content:center;"><span style="display:none;"></span>Human Connections</div>
+    <h2 class="section-title">Technology supports.<br><em>People connect.</em></h2>
+    <p class="section-body" style="text-align:center;margin:0 auto;">
+      Paraverse and GENTA exist to clear the path — but your growth at Paragon
+      is built through real relationships, real conversations, and real moments.
+    </p>
+  </div>
+  <div class="humans-grid">
+    <div class="human-card reveal">
+      <div class="human-emoji">👥</div>
+      <div class="human-role">Your Team</div>
+      <div class="human-quote">"The energy when you walk in and everyone already knows your name — that's not GENTA's doing. That's Paragon's culture of warmth."</div>
+    </div>
+    <div class="human-card reveal reveal-delay-1">
+      <div class="human-emoji">🧭</div>
+      <div class="human-role">Your Manager</div>
+      <div class="human-quote">"GENTA handles the logistics. I focus on your growth. Knowing you're not drowning in admin means we can have real conversations about where you're headed."</div>
+    </div>
+    <div class="human-card reveal reveal-delay-2">
+      <div class="human-emoji">💼</div>
+      <div class="human-role">HR Business Partner</div>
+      <div class="human-quote">"GENTA takes care of Tier-1 questions so when you come to us, we can give you the full attention your situation deserves."</div>
+    </div>
+    <div class="human-card reveal reveal-delay-1">
+      <div class="human-emoji">🌟</div>
+      <div class="human-role">Your Mentor</div>
+      <div class="human-quote">"The first months are full of questions. Some GENTA answers instantly. The deeper ones — about who you want to be here — that's what I'm here for."</div>
+    </div>
+    <div class="human-card reveal reveal-delay-2">
+      <div class="human-emoji">🤝</div>
+      <div class="human-role">Your Community</div>
+      <div class="human-quote">"Paragonians look out for each other. When GENTA can't answer, there's always someone who will."</div>
+    </div>
+    <div class="human-card reveal reveal-delay-3">
+      <div class="human-emoji">🎓</div>
+      <div class="human-role">L&D Partner</div>
+      <div class="human-quote">"Your development plan is yours. We design the path. Paraverse helps you stay on it. But the learning — that's completely you."</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FUTURE -->
+<section id="future">
+  <div style="max-width: 640px; margin-bottom: 16px;" class="reveal">
+    <div class="section-eyebrow">Future Possibilities</div>
+    <h2 class="section-title">GENTA grows<br>as <em>you</em> grow.</h2>
+    <p class="section-body">
+      We won't overpromise. GENTA's next chapter depends on what Paragonians
+      need — it will evolve grounded in reality, not hype.
+      Here's what the future could look like.
+    </p>
+  </div>
+  <div class="future-grid">
+    <div class="future-card reveal">
+      <div class="future-tag">Phase 2</div>
+      <div class="future-icon">⚡</div>
+      <div class="future-title">Automated Service Requests</div>
+      <div class="future-desc">GENTA doesn't just direct you to submit a form — it submits it for you, bridges systems, and confirms completion in one conversation.</div>
+    </div>
+    <div class="future-card reveal reveal-delay-1">
+      <div class="future-tag">Phase 2</div>
+      <div class="future-icon">🔗</div>
+      <div class="future-title">Cross-System Integration</div>
+      <div class="future-desc">Life event? GENTA coordinates Sunfish, GLPI, Benefits, and your manager — proactively, across every platform involved.</div>
+    </div>
+    <div class="future-card reveal reveal-delay-2">
+      <div class="future-tag">Phase 3</div>
+      <div class="future-icon">🌱</div>
+      <div class="future-title">Personalized Growth Companion</div>
+      <div class="future-desc">Understanding your career stage and goals, GENTA nudges you toward development opportunities before you even know to ask.</div>
+    </div>
+    <div class="future-card reveal">
+      <div class="future-tag">Phase 3</div>
+      <div class="future-icon">🏆</div>
+      <div class="future-title">Recognition Moments</div>
+      <div class="future-desc">Anniversaries, milestones, project wins — GENTA helps Paragon celebrate you in ways that feel personal, not programmatic.</div>
+    </div>
+    <div class="future-card reveal reveal-delay-1">
+      <div class="future-tag">Future</div>
+      <div class="future-icon">🔮</div>
+      <div class="future-title">Predictive Support</div>
+      <div class="future-desc">Before you realize you need something, GENTA anticipates it — a benefit expiring, a transition approaching, a resource that fits your moment.</div>
+    </div>
+    <div class="future-card reveal reveal-delay-2" style="display:flex;align-items:center;justify-content:center;text-align:center;">
+      <div>
+        <div style="font-size:36px;margin-bottom:12px;">✦</div>
+        <div style="font-size:14px;font-weight:600;margin-bottom:8px;">The Next Chapter</div>
+        <div style="font-size:13px;color:var(--white-50);line-height:1.6;">GENTA's future is written by Paragonians. Every question you ask, every need you express shapes what it becomes next.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLOSING -->
+<section id="closing">
+  <div class="closing-content reveal">
+    <div class="section-eyebrow" style="justify-content:center; margin-bottom:24px;">
+      <span style="width:24px;height:1px;background:var(--teal);display:block;"></span>
+      A Letter to Every Paragonian
+      <span style="width:24px;height:1px;background:var(--teal);display:block;"></span>
+    </div>
+    <h2 class="closing-title">
+      Behind every notification,<br>
+      every reminder, every answer —<br>
+      there is <em>genuine care.</em>
+    </h2>
+    <p class="closing-body">
+      Paraverse is not just software. GENTA is not just automation.
+      They are expressions of what Paragon fundamentally believes:
+      that you deserve to feel supported, seen, and free to do your best work —
+      on day one, and every day after.
+      <br><br>
+      Your journey is yours. We are just here to make sure
+      nothing stands in your way.
+    </p>
+    <div class="closing-sig">
+      <span>✦</span>
+      <span style="color:var(--white-80);">With intention and care,</span>
+      <span>Paragon Corp</span>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div style="display:flex;align-items:center;gap:10px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="12,2 22,7 22,17 12,22 2,17 2,7" fill="none" stroke="#1a6fff" stroke-width="1.5"/>
+      <polygon points="12,7 17,10 17,14 12,17 7,14 7,10" fill="#1a6fff" opacity="0.6"/>
+    </svg>
+    <span><strong style="color:var(--white);">PARAGONCORP</strong> — Paraverse & GENTA Experience</span>
+  </div>
+  <span>A journey built on genuine care for every Paragonian.</span>
+</footer>
+
+<script>
+// ─── PARTICLES ───
+(function() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 30; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.animationDuration = (8 + Math.random() * 12) + 's';
+    p.style.animationDelay = (Math.random() * 15) + 's';
+    p.style.width = p.style.height = (1 + Math.random() * 2) + 'px';
+    container.appendChild(p);
+  }
+})();
+
+// ─── SCROLL REVEAL ───
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// ─── EMAIL DETAIL OPEN ───
+function showEmailDetail() {
+  const el = document.getElementById('email-detail');
+  el.style.display = 'block';
+  setTimeout(() => el.classList.add('visible'), 10);
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+function showEmailDetail2() {
+  alert('GENTA Notification:\n\n"Salma, kamu resmi menjadi Paragonian! 🎉\n\nAktifkan email korporatmu dan login ke Paraverse untuk memulai Digital Pre-Onboarding.\n\nCTA: Login Paraverse → Start Onboarding Journey"');
+}
+
+// ─── GENTA SCENARIOS ───
+const scenarios = [
+  {
+    messages: [
+      { from: 'genta', text: 'Selamat datang, Salma! 🎉 Aku GENTA, teman 24/7-mu di Paragon. Ada yang bisa kubantu sebelum hari pertamamu?' },
+      { from: 'user', text: 'Apa saja yang harus aku siapkan sebelum hari pertama?' },
+      { from: 'genta', text: '<span class="msg-tag">Pre-Onboarding</span><br>Berikut checklist-mu:<br>✅ Aktifkan email korporat<br>⬜ Aktivasi Sunfish (HRIS)<br>⬜ Selesaikan modul pre-onboarding di Paraverse<br>⬜ Siapkan dokumen fisik<br><br>Mau kuingatkan step by step?' },
+    ],
+    actions: ['📋 Buka onboarding checklist', '📍 Cara ke kantor', '👤 Kenalan dengan tim']
+  },
+  {
+    messages: [
+      { from: 'user', text: 'Berapa hari cuti tahunan yang aku punya?' },
+      { from: 'genta', text: '<span class="msg-tag">Leave Policy</span><br>Kamu punya <strong>12 hari cuti tahunan</strong>. Cuti dapat diajukan via Sunfish setelah 3 bulan masa kerja.<br><br>Catatan: Cuti tidak dapat diakumulasi lebih dari 2 tahun. Sisa cuti akan hangus pada 31 Desember.' },
+      { from: 'user', text: 'Bagaimana cara mengajukan cuti?' },
+      { from: 'genta', text: 'Gampang! Buka <strong>Sunfish → Leave Request → Annual Leave</strong>. Isi tanggal dan alasan, submit ke atasan langsung. Approval biasanya 1-2 hari kerja. Mau aku arahkan ke Sunfish sekarang? 🏖️' },
+    ],
+    actions: ['🏖️ Buka Sunfish', '📄 Kebijakan cuti lengkap', '💬 Tanya HR']
+  },
+  {
+    messages: [
+      { from: 'genta', text: '🔔 <strong>Life Event Reminder</strong><br>Salma, kami melihat kamu baru saja menikah. Selamat! 💍<br><br>Ada beberapa hal penting yang perlu diupdate agar benefitmu tetap optimal.' },
+      { from: 'user', text: 'Apa yang harus aku lakukan setelah menikah?' },
+      { from: 'genta', text: '<span class="msg-tag">Life Event: Pernikahan</span><br>Berikut yang perlu dilakukan:<br>1. Update status pernikahan di Sunfish<br>2. Daftarkan pasangan sebagai tanggungan (BPJS, asuransi swasta)<br>3. Update dokumen legal (KK baru, KTP)<br><br>Deadline: 30 hari sejak tanggal nikah. Mau kubantu mulai dari mana? 💙' },
+    ],
+    actions: ['📝 Update data Sunfish', '🏥 Daftarkan pasangan', '📁 Upload dokumen']
+  },
+  {
+    messages: [
+      { from: 'user', text: 'Saya ingin mengundurkan diri. Apa prosedurnya?' },
+      { from: 'genta', text: '<span class="msg-tag">Offboarding</span><br>Terima kasih atas kontribusimu, Salma. 💙<br><br>Berikut prosedur pengunduran diri:<br>1. Sampaikan kepada atasan langsung<br>2. HRS akan mengirimkan exit checklist ke emailmu<br>3. Notice period: <strong>30 hari</strong> (sesuai kontrak)<br>4. Selesaikan handover dan clearance<br><br>Ingin ku-connect-kan ke HRS untuk informasi lebih lanjut?' },
+      { from: 'genta', text: 'Kamu akan selalu menjadi bagian dari keluarga Paragon. Pintu alumni selalu terbuka. Semangat untuk perjalanan berikutnya! ✨' },
+    ],
+    actions: ['📧 Hubungi HRS', '📋 Exit checklist', '🎓 Portal Alumni']
+  }
+];
+
+let currentScenario = 0;
+function renderScenario(idx) {
+  const s = scenarios[idx];
+  const msgContainer = document.getElementById('genta-demo-messages');
+  const actContainer = document.getElementById('demo-actions');
+  msgContainer.innerHTML = '';
+  s.messages.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'demo-msg ' + (m.from === 'genta' ? 'genta' : 'user');
+    div.innerHTML = m.text;
+    div.style.opacity = '0';
+    div.style.transform = 'translateY(8px)';
+    div.style.transition = 'all 0.3s ease';
+    div.style.transitionDelay = (i * 0.12) + 's';
+    msgContainer.appendChild(div);
+    setTimeout(() => { div.style.opacity = '1'; div.style.transform = 'none'; }, 50 + i * 120);
+  });
+  actContainer.innerHTML = s.actions.map(a =>
+    `<button class="demo-action-btn">${a}</button>`
+  ).join('');
+}
+
+function setScenario(idx) {
+  currentScenario = idx;
+  document.querySelectorAll('.scenario-tab').forEach((t, i) => {
+    t.classList.toggle('active', i === idx);
+  });
+  renderScenario(idx);
+}
+renderScenario(0);
+
+// ─── TIMELINE ───
+const timelineStages = [
+  {
+    emoji: '📧', label: 'Offering',
+    title: 'The <em>Yes</em> that starts it all',
+    emotion: '😊 Excited, nervous, hopeful',
+    desc: 'Salma receives her official offer from Paragon. It is not just a letter — it is a warm, personalized welcome that makes her feel chosen, not just hired.',
+    touchpoints: [
+      { icon: '📧', label: 'Outlook Email', sub: 'Official offer from TA team' },
+      { icon: '📝', label: 'Onboarding Link', sub: 'Data & document submission' },
+    ],
+    screen: 'email'
+  },
+  {
+    emoji: '🌱', label: 'Pre-Onboarding',
+    title: '<em>Before day one</em>, you already belong',
+    emotion: '🤩 Curious, eager, still antsy',
+    desc: 'H-2 before joining, GENTA sends Salma her first notification. She activates her corporate email, logs into Paraverse, and finds a personalized pre-onboarding plan waiting.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA Notification', sub: 'Welcome & activation CTA' },
+      { icon: '🏠', label: 'Paraverse Login', sub: 'Digital pre-onboarding begins' },
+      { icon: '📱', label: 'Sunfish Activation', sub: 'HRIS registration' },
+    ],
+    screen: 'paraverse'
+  },
+  {
+    emoji: '🎉', label: 'First Day',
+    title: 'A first day worth <em>remembering</em>',
+    emotion: '🥺 Overwhelmed, excited, grateful',
+    desc: 'GENTA sends her day-one itinerary the night before. Where to park. Who to meet. Where her laptop is. She arrives prepared. She is greeted by name. She feels seen.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA (H-1 notif)', sub: 'Personalized day itinerary' },
+      { icon: '💻', label: 'Paraverse + Sunfish', sub: 'Attendance & setup' },
+      { icon: '📋', label: 'Onboarding Kit', sub: 'Laptop ready at Desk 4B' },
+    ],
+    screen: 'paraverse'
+  },
+  {
+    emoji: '📚', label: 'First 90 Days',
+    title: 'Learning, <em>not drowning</em>',
+    emotion: '💪 Challenged, focused, growing',
+    desc: 'GENTA reminds her about LMS modules. Her manager reaches out. She knows exactly where to go for answers — so she can spend her energy on actual work, not figuring out HR.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA Reminders', sub: 'Module deadlines & tasks' },
+      { icon: '📚', label: 'LMS Platform', sub: 'Directed by GENTA' },
+      { icon: '🏠', label: 'Paraverse', sub: 'Daily home base' },
+    ],
+    screen: 'paraverse'
+  },
+  {
+    emoji: '💼', label: 'Daily Work',
+    title: 'HR just <em>works</em>. Finally.',
+    emotion: '😌 Productive, in the flow',
+    desc: 'Months 4-24. Real work. When HR questions come up, Salma asks GENTA directly. If GENTA can\'t answer, she\'s directed to the right team via POSS/WhatsApp or GLPI service desk.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA', sub: 'Tier-1 Q&A anytime' },
+      { icon: '🛠️', label: 'GLPI', sub: 'IT & HR service requests' },
+      { icon: '📋', label: 'Paraverse Policies', sub: 'Self-serve knowledge base' },
+    ],
+    screen: 'paraverse'
+  },
+  {
+    emoji: '🌟', label: 'Career Growth',
+    title: 'Growing <em>with intention</em>.',
+    emotion: '🚀 Ambitious, purposeful',
+    desc: 'GENTA sends a reminder about relocation benefits she\'s now eligible for after a promotion. Her path is clear — and she\'s supported at every transition.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA Proactive Reminder', sub: 'New benefits eligible' },
+      { icon: '📈', label: 'Sunfish', sub: 'Career & performance records' },
+      { icon: '🎓', label: 'L&D Platform', sub: 'Development opportunities' },
+    ],
+    screen: 'paraverse'
+  },
+  {
+    emoji: '👶', label: 'Life Events',
+    title: 'Life happens.<br><em>Paragon has you.</em>',
+    emotion: '🥰 Vulnerable, grateful, cared for',
+    desc: 'Salma is expecting. Before she even tells her manager, she opens Paraverse. GENTA walks her through every step — leave, benefits, data updates — and congratulates her warmly.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA "Life Events"', sub: 'Step-by-step guide' },
+      { icon: '🏥', label: 'Benefits Portal', sub: 'Maternity & dependent coverage' },
+      { icon: '📝', label: 'Sunfish', sub: 'Leave application' },
+    ],
+    screen: 'genta-life'
+  },
+  {
+    emoji: '🚪', label: 'Separation',
+    title: 'Every ending<br>is <em>a new beginning</em>.',
+    emotion: '😔 Bittersweet, but respected',
+    desc: 'When the time comes, GENTA handles the offboarding journey with the same care it started with. She leaves knowing she can always come back as alumni.',
+    touchpoints: [
+      { icon: '🤖', label: 'GENTA', sub: 'Offboarding guidance & warm farewell' },
+      { icon: '📋', label: 'Exit Checklist', sub: 'Seamless clearance process' },
+      { icon: '🎓', label: 'Alumni Portal', sub: 'Community, discounts & mentorship' },
+    ],
+    screen: 'offboard'
+  },
+];
+
+function renderTimeline() {
+  const line = document.getElementById('timeline-line');
+  const detail = document.getElementById('timeline-detail-container');
+  line.innerHTML = timelineStages.map((s, i) =>
+    `<div class="tl-node ${i===0?'active':''}" onclick="selectStage(${i})">
+      <div class="tl-dot">${s.emoji}</div>
+      <div class="tl-label">${s.label}</div>
+    </div>`
+  ).join('');
+
+  detail.innerHTML = timelineStages.map((s, i) =>
+    `<div class="timeline-detail ${i===0?'active':''}" id="td-${i}">
+      <div class="td-inner">
+        <div class="td-left">
+          <h3>${s.title}</h3>
+          <div class="td-emotion">${s.emotion}</div>
+          <p class="td-desc">${s.desc}</p>
+          <div class="td-touchpoints">
+            ${s.touchpoints.map(tp =>
+              `<div class="tp-item">
+                <span class="tp-icon">${tp.icon}</span>
+                <span class="tp-label">${tp.label}</span>
+                <span class="tp-sub">${tp.sub}</span>
+              </div>`
+            ).join('')}
+          </div>
+        </div>
+        <div class="td-right">
+          ${renderMiniScreen(s)}
+        </div>
+      </div>
+    </div>`
+  ).join('');
+}
+
+function renderMiniScreen(s) {
+  if (s.screen === 'email') {
+    return `<div class="screen-frame">
+      <div class="screen-bar" style="padding: 0 14px; height:40px;">
+        <div class="screen-bar-left" style="gap:8px;">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#1a6fff" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3,7 12,13 21,7"/></svg>
+          <span style="font-size:11px;color:var(--white-80);">Inbox — Outlook</span>
+        </div>
+      </div>
+      <div style="padding:16px;font-size:12px;">
+        <div style="padding:12px;background:rgba(26,111,255,0.08);border:1px solid rgba(26,111,255,0.15);border-radius:8px;border-left:3px solid var(--blue-accent);">
+          <div style="font-weight:600;margin-bottom:4px;">🏢 Paragon Corp — TA Team</div>
+          <div style="color:var(--white-80);margin-bottom:6px;">Selamat Datang di Keluarga Paragon Corp ✨</div>
+          <div style="color:var(--white-50);font-size:11px;">Dear Salma, kami dengan bangga menyambut Anda bergabung sebagai MT - HRCA...</div>
+        </div>
+        <div style="margin-top:10px;padding:12px;background:rgba(0,198,184,0.06);border:1px solid rgba(0,198,184,0.15);border-radius:8px;">
+          <div class="genta-badge" style="margin-bottom:6px;">GENTA</div>
+          <div style="font-size:11px;color:var(--white-80);">H-2: Kamu resmi menjadi Paragonian! Login ke Paraverse untuk pre-onboarding 🚀</div>
+        </div>
+      </div>
+    </div>`;
+  }
+  if (s.screen === 'genta-life') {
+    return `<div class="genta-demo-frame" style="font-size:12px;">
+      <div class="genta-demo-header" style="padding:12px 16px;">
+        <div class="genta-demo-avatar" style="width:32px;height:32px;font-size:14px;">✦</div>
+        <div><div class="genta-demo-name" style="font-size:12px;">GENTA</div><div class="genta-demo-status" style="font-size:10px;">Online · Paraverse</div></div>
+      </div>
+      <div style="padding:14px;display:flex;flex-direction:column;gap:8px;">
+        <div class="demo-msg user" style="font-size:11px;">Ada yang perlu kulakukan setelah hamil?</div>
+        <div class="demo-msg genta" style="font-size:11px;"><span class="msg-tag">Life Events: Kehamilan</span><br><strong>Congratulations! 🎉</strong><br>Berikut yang perlu dilakukan:<br>1. Ajukan cuti hamil di Sunfish<br>2. Daftarkan bayi ke BPJS<br>3. Update data tanggungan<br><br>Mau kubantu mulai? 💙</div>
+      </div>
+    </div>`;
+  }
+  if (s.screen === 'offboard') {
+    return `<div class="genta-demo-frame">
+      <div class="genta-demo-header" style="padding:12px 16px;">
+        <div class="genta-demo-avatar" style="width:32px;height:32px;font-size:14px;">✦</div>
+        <div><div class="genta-demo-name" style="font-size:12px;">GENTA</div></div>
+      </div>
+      <div style="padding:14px;font-size:11px;line-height:1.7;color:var(--white-80);">
+        <div style="padding:12px;background:rgba(26,111,255,0.06);border:1px solid rgba(26,111,255,0.12);border-radius:8px;">
+          <div style="font-weight:700;color:var(--white);margin-bottom:6px;">Terima kasih, Salma. 💙</div>
+          Kontribusimu selama ini berarti sangat besar bagi Paragon. Exit checklist telah dikirim ke emailmu. Pintu alumni selalu terbuka.<br><br>
+          <span style="color:var(--teal);font-weight:600;">Semangat untuk perjalanan berikutnya! ✨</span>
+        </div>
+      </div>
+    </div>`;
+  }
+  // Default: paraverse
+  return `<div class="screen-frame">
+    <div class="screen-bar" style="padding: 0 14px; height:40px;">
+      <div class="screen-bar-left" style="gap:8px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><polygon points="12,2 22,7 22,17 12,22 2,17 2,7" fill="none" stroke="#1a6fff" stroke-width="1.5"/><polygon points="12,7 17,10 17,14 12,17 7,14 7,10" fill="#1a6fff" opacity="0.6"/></svg>
+        <span style="font-size:11px;font-weight:700;color:var(--white);">PARAGONCORP</span>
+        <span style="font-size:10px;color:var(--white-50);">Paraverse</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--blue-accent),var(--teal));display:flex;align-items:center;justify-content:center;font-size:8px;font-weight:700;">SN</div>
+        <span style="font-size:10px;color:var(--white-50);">Salma N.</span>
+      </div>
+    </div>
+    <div style="padding:16px;">
+      <div style="background:rgba(26,111,255,0.1);border:1px solid rgba(26,111,255,0.2);border-radius:8px;padding:12px;margin-bottom:12px;">
+        <div style="font-size:12px;font-weight:600;margin-bottom:4px;">Good morning, Salma! ☀️</div>
+        <div style="font-size:10px;color:var(--white-50);">You have 2 pending tasks today</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+        <div style="padding:10px;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:8px;text-align:center;font-size:11px;">📅<br><span style="font-size:10px;color:var(--white-50);">Schedule</span></div>
+        <div style="padding:10px;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:8px;text-align:center;font-size:11px;">🏖️<br><span style="font-size:10px;color:var(--white-50);">Leave</span></div>
+        <div style="padding:10px;background:var(--navy-card);border:1px solid var(--navy-border);border-radius:8px;text-align:center;font-size:11px;">📄<br><span style="font-size:10px;color:var(--white-50);">Policies</span></div>
+        <div style="padding:10px;background:rgba(0,198,184,0.06);border:1px solid rgba(0,198,184,0.2);border-radius:8px;text-align:center;font-size:11px;color:var(--teal);">✦<br><span style="font-size:10px;">Ask GENTA</span></div>
+      </div>
+      <div style="background:var(--glass);border:1px solid var(--navy-border);border-radius:8px;padding:10px;font-size:11px;">
+        <div class="genta-badge" style="margin-bottom:6px;">GENTA</div>
+        <div style="color:var(--white-80);">Halo! Ada yang bisa kubantu hari ini? 👋</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function selectStage(idx) {
+  document.querySelectorAll('.tl-node').forEach((n, i) => n.classList.toggle('active', i === idx));
+  document.querySelectorAll('.timeline-detail').forEach((d, i) => d.classList.toggle('active', i === idx));
+}
+
+renderTimeline();
+</script>
+</body>
+</html>
